@@ -50,8 +50,8 @@ const getProducts = asyncHandler(async (req, res) => {
   }
 });
 
-// @desc    Fetch all products
-// @route   Get /api/products
+// @desc    Fetch paginated products
+// @route   Get /api/products/paginated
 // @access  Public
 const getPaginatedProducts = asyncHandler(async (req, res) => {
   const pageSize = 12;
@@ -96,6 +96,21 @@ const getProductsByCategory = asyncHandler(async (req, res) => {
       res.status(404);
       throw new Error('Category not found');
     }
+  } catch (error) {
+    console.error(error);
+  }
+});
+
+// @desc    Fetch top rated products
+// @route   GET /api/products/featured
+// @access  Public
+const getFeaturedProducts = asyncHandler(async (req, res) => {
+  try {
+    const products = await Product.find({}).sort({ rating: -1 }).limit(3);
+    res.status(200).send({
+      success: true,
+      product: products,
+    });
   } catch (error) {
     console.error(error);
   }
@@ -219,6 +234,7 @@ export {
   getProducts,
   getPaginatedProducts,
   getProductsByCategory,
+  getFeaturedProducts,
   getProductById,
   updateProduct,
   deleteProduct,

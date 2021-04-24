@@ -5,6 +5,7 @@ import Product from '../components/Product';
 import Loader from '../components/Loader';
 import Message from '../components/Message';
 import Paginate from '../components/Paginate';
+import ProductCarousel from '../components/ProductCarousel';
 import { listCategories } from '../actions/categoryActions';
 import { listProducts } from '../actions/productActions';
 
@@ -27,7 +28,11 @@ const HomeScreen = ({ match }) => {
       {keyword ? (
         <h1>Search results for {keyword} are..</h1>
       ) : (
-        <h1>Latest products</h1>
+        <>
+          <ProductCarousel />
+          <br />
+          <h1>Latest products</h1>
+        </>
       )}
       {loading ? (
         <Loader />
