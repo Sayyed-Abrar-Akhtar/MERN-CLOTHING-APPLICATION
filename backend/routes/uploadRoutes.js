@@ -11,11 +11,14 @@ router.post('/', upload.single('image'), (req, res) => {
 });
 
 router.post('/image', upload.single('image'), (req, res) => {
-  console.log(`/${req.file.path}`);
-  res.json({
-    success: true,
-    image: `/${req.file.path}`,
-  });
+  try {
+    res.json({
+      success: true,
+      image: `/${req.file.path}`,
+    });
+  } catch (err) {
+    console.error(err);
+  }
 });
 
 export default router;

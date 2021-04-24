@@ -3,6 +3,7 @@ import express from 'express';
 import {
   createProduct,
   getProducts,
+  getPaginatedProducts,
   getProductsByCategory,
   getProductById,
   updateProduct,
@@ -16,6 +17,7 @@ const router = express.Router();
 
 // Chained route handler
 router.route('/').get(getProducts).post(protect, admin, createProduct);
+router.route('/paginated').get(getPaginatedProducts);
 router.route('/:id/reviews').post(protect, createProductReview);
 router
   .route('/:id')

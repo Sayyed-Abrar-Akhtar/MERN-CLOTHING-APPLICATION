@@ -13,7 +13,7 @@ const exchangeCurrency = asyncHandler(
 
     const currencyDetailsArr = [];
     const { data } = await axios.get(
-      `https://v6.exchangerate-api.com/v6/${key}/latest/NPR`
+      `https://v6.exchangerate-api.com/v6/${key}d/latest/NPR`
     );
 
     const { base_code, conversion_rates } = data;

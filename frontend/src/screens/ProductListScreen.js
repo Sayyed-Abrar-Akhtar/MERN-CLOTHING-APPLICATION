@@ -5,6 +5,7 @@ import { Table, Button, Row, Col } from 'react-bootstrap';
 import { useDispatch, useSelector } from 'react-redux';
 import Message from '../components/Message';
 import Loader from '../components/Loader';
+import Paginate from '../components/Paginate';
 import {
   listProducts,
   deleteProduct,
@@ -13,6 +14,7 @@ import {
 import { PRODUCT_CREATE_RESET } from '../constants/productConstants';
 
 const ProductListScreen = ({ history, match }) => {
+  const pageNumber = match.params.pageNumber || 1;
   const dispatch = useDispatch();
 
   const currencyDetails = useSelector((state) => state.currencyDetails);
@@ -26,7 +28,7 @@ const ProductListScreen = ({ history, match }) => {
   } = currencyPrice;
 
   const productList = useSelector((state) => state.productList);
-  const { loading, error, products } = productList;
+  const { loading, error, products, page, pages } = productList;
 
   const productDelete = useSelector((state) => state.productDelete);
   const {
@@ -54,10 +56,11 @@ const ProductListScreen = ({ history, match }) => {
     if (successCreate) {
       history.push(`/admin/product/${createdProduct._id}/edit`);
     } else {
-      dispatch(listProducts());
+      dispatch(listProducts('', pageNumber));
     }
   }, [
     dispatch,
+    pageNumber,
     history,
     userInfo,
     successCreate,
@@ -101,61 +104,64 @@ const ProductListScreen = ({ history, match }) => {
       ) : error ? (
         <Message variant='danger'>{error}</Message>
       ) : (
-        <Table striped bordered hover responsive className='table-sm'>
-          <thead>
-            <tr>
-              <th>ID</th>
-              <th>NAME</th>
-              <th>
-                {loadingCurrencyPrice ? (
-                  <Loader />
-                ) : errorCurrencyPrice || currencyDetailsError ? (
-                  `PRICE (Rs)`
-                ) : (
-                  `PRICE (${countrycode.split('-')[0]})`
-                )}
-              </th>
-              <th>CATEGORY</th>
-              <th>BRAND</th>
-              <th>ACTIONS</th>
-            </tr>
-          </thead>
-          <tbody>
-            {products.map((product) => (
-              <tr key={product._id}>
-                <td>{product._id}</td>
-                <td>{product.name}</td>
-                <td>
+        <>
+          <Table striped bordered hover responsive className='table-sm'>
+            <thead>
+              <tr>
+                <th>ID</th>
+                <th>NAME</th>
+                <th>
                   {loadingCurrencyPrice ? (
                     <Loader />
                   ) : errorCurrencyPrice || currencyDetailsError ? (
-                    product.price
+                    `PRICE (Rs)`
                   ) : (
-                    (Number(countrycode.split('-')[1]) * product.price).toFixed(
-                      2
-                    )
+                    `PRICE (${countrycode.split('-')[0]})`
                   )}
-                </td>
-                <td>{product.category}</td>
-                <td>{product.brand}</td>
-                <td>
-                  <LinkContainer to={`/admin/product/${product._id}/edit`}>
-                    <Button variant='light' className='btn-sm'>
-                      <i className='fas fa-edit' />
-                    </Button>
-                  </LinkContainer>
-                  <Button
-                    variant='danger'
-                    className='btn-sm'
-                    onClick={() => deleteHandler(product._id, product.name)}
-                  >
-                    <i className='fas fa-trash' />
-                  </Button>
-                </td>
+                </th>
+                <th>CATEGORY</th>
+                <th>BRAND</th>
+                <th>ACTIONS</th>
               </tr>
-            ))}
-          </tbody>
-        </Table>
+            </thead>
+            <tbody>
+              {products.map((product) => (
+                <tr key={product._id}>
+                  <td>{product._id}</td>
+                  <td>{product.name}</td>
+                  <td>
+                    {loadingCurrencyPrice ? (
+                      <Loader />
+                    ) : errorCurrencyPrice || currencyDetailsError ? (
+                      product.price
+                    ) : (
+                      (
+                        Number(countrycode.split('-')[1]) * product.price
+                      ).toFixed(2)
+                    )}
+                  </td>
+                  <td>{product.category}</td>
+                  <td>{product.brand}</td>
+                  <td>
+                    <LinkContainer to={`/admin/product/${product._id}/edit`}>
+                      <Button variant='light' className='btn-sm'>
+                        <i className='fas fa-edit' />
+                      </Button>
+                    </LinkContainer>
+                    <Button
+                      variant='danger'
+                      className='btn-sm'
+                      onClick={() => deleteHandler(product._id, product.name)}
+                    >
+                      <i className='fas fa-trash' />
+                    </Button>
+                  </td>
+                </tr>
+              ))}
+            </tbody>
+          </Table>
+          <Paginate page={page} pages={pages} isAdmin={true} />
+        </>
       )}
     </>
   );

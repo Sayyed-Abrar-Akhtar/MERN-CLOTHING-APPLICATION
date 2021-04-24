@@ -50,6 +50,38 @@ const getProducts = asyncHandler(async (req, res) => {
   }
 });
 
+// @desc    Fetch all products
+// @route   Get /api/products
+// @access  Public
+const getPaginatedProducts = asyncHandler(async (req, res) => {
+  const pageSize = 12;
+  const page = Number(req.query.pageNumber) || 1;
+  try {
+    const keyword = req.query.keyword
+      ? {
+          name: {
+            $regex: req.query.keyword,
+            $options: 'i',
+          },
+        }
+      : {};
+
+    const count = await Product.countDocuments({ ...keyword });
+    const products = await Product.find({ ...keyword })
+      .limit(pageSize)
+      .skip(pageSize * (page - 1))
+      .sort({ _id: -1 });
+    res.status(200).send({
+      success: true,
+      product: products,
+      page,
+      pages: Math.ceil(count / pageSize),
+    });
+  } catch (error) {
+    console.error(error);
+  }
+});
+
 // @desc    Fetch all product of a category
 // @route   Get /api/category/:category
 // @access  Public
@@ -185,6 +217,7 @@ const deleteProduct = asyncHandler(async (req, res) => {
 export {
   createProduct,
   getProducts,
+  getPaginatedProducts,
   getProductsByCategory,
   getProductById,
   updateProduct,
