@@ -1,0 +1,106 @@
+body {
+  font-size: 13px;
+  color: #241e20;
+}
+
+main {
+  min-height: 100vh;
+}
+
+.search-btn {
+  color: #00cb97;
+  border-color: #00cb97;
+  border-radius: 2px;
+}
+
+.search-btn:hover {
+  color: #333;
+  border-color: #00cb97;
+  background-color: #00cb97;
+}
+
+.search-btn:focus {
+  box-shadow: 0 0 0 0.2rem rgb(0, 203, 151);
+}
+
+.nav-profile {
+  margin: 0 0 0 0.9rem;
+}
+
+.profile-image {
+  width: 2.5rem;
+  margin-right: 0.2rem;
+}
+
+.footer {
+  background-color: #333;
+  color: #eee;
+}
+
+.mail-link {
+  color: #eee;
+  border-bottom: 2px solid #eee;
+}
+
+@media (min-width: 990px) {
+  .menubar {
+    height: 65px;
+  }
+}
+
+.card-title {
+  font-size: 1.15rem;
+}
+
+h1 {
+  font-size: 1.8rem;
+  padding: 1rem 0;
+}
+
+h2 {
+  font-size: 1.4rem;
+  padding: 0.1rem 0;
+}
+
+h3 {
+  padding: 1rem 0;
+}
+
+.rating span {
+  margin: 0.1rem;
+}
+
+.icon-delete {
+  color: #d11a2a;
+}
+
+.icon-admin {
+  color: rgb(1, 75, 1);
+}
+
+.spinner {
+  width: 2rem;
+  height: 2rem;
+  margin: auto;
+}
+
+.dropdown-menu.show {
+  max-height: 30vh;
+  scroll-behavior: smooth;
+  overflow: scroll;
+}
+
+.currency {
+  margin: auto;
+}
+
+.btn-currency {
+  margin: 1px 0;
+}
+
+.notification-bar {
+  height: 20px;
+}
+.notification-bar h5 {
+  letter-spacing: 1px;
+}
