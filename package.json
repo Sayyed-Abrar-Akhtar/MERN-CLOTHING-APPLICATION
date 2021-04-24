@@ -1,0 +1,44 @@
+{
+  "name": "online-clothing-api",
+  "version": "1.0.0",
+  "description": "Designing and developing a MERN Stack online clothing website for web api assignment",
+  "main": "app.js",
+  "type": "module",
+  "scripts": {
+    "start": "node backend/server.js",
+    "server": "nodemon backend/server.js",
+    "client": "npm start --prefix frontend",
+    "dev": "concurrently \"npm run server\" \"npm run client\"",
+    "data:import": "node backend/seeder",
+    "data:destroy": "node backend/seeder -d",
+    "test": "jest --forceExit"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/softwarica-github/t2---backend-api-Sayyed-Abrar-Akhtar.git"
+  },
+  "author": "Sayyed Abrar Akhtar",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/softwarica-github/t2---backend-api-Sayyed-Abrar-Akhtar/issues"
+  },
+  "homepage": "https://github.com/softwarica-github/t2---backend-api-Sayyed-Abrar-Akhtar#readme",
+  "dependencies": {
+    "axios": "^0.21.1",
+    "bcryptjs": "^2.4.3",
+    "body-parser": "^1.19.0",
+    "currency-symbol-map": "^5.0.1",
+    "express": "^4.17.1",
+    "express-async-handler": "^1.1.4",
+    "express-validator": "^6.9.2",
+    "jsonwebtoken": "^8.5.1",
+    "mongoose": "^5.11.13",
+    "morgan": "^1.10.0",
+    "multer": "^1.4.2"
+  },
+  "devDependencies": {
+    "colors": "^1.4.0",
+    "concurrently": "^6.0.2",
+    "dotenv": "^8.2.0"
+  }
+}
